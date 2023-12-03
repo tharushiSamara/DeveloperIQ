@@ -1,4 +1,4 @@
-from Microservices.GitHub_Cata_Collector.github_data_collector import fetch_github_data
+from GitHub_Cata_Collector.github_data_collector import fetch_github_data
 import requests
 from unittest.mock import patch
 
