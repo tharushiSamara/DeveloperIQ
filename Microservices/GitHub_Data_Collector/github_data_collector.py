@@ -66,7 +66,7 @@ contributor_list = get_contributor_list(username, repo)
 
 # Function to fetch data from the GitHub API
 def fetch_github_data(endpoint, username, repo, params=None):
-    url = f"{GITHUB_API_BASE_URL}/repos/{username}/{repo}/{endpoint}"
+    url = f"{BASE_URL}/repos/{username}/{repo}/{endpoint}"
     response = requests.get(url, headers={'Authorization': 'Bearer YOUR_GITHUB_ACCESS_TOKEN'}, params=params)
 
     if response.status_code == 200:
