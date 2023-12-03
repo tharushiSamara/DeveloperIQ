@@ -16,8 +16,8 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # AWS DynamoDB configuration
-DYNAMODB_REGION = 'your-dynamodb-region'
-DYNAMODB_TABLE_NAME = 'your-dynamodb-table-name'
+DYNAMODB_REGION = 'ap-south-1'
+DYNAMODB_TABLE_NAME = 'Developer-Tracking-Data'
 
 # Route to store the processed GitHub data in DynamoDB
 @app.route('/store-processed-data', methods=['POST'])
