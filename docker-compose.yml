@@ -1,0 +1,15 @@
+version: '3'
+services:
+  service1:
+    build:
+      context: .
+      dockerfile: GitHub_Data_Collector/Dockerfile
+    ports:
+      - "5000:5000"
+
+  service2:
+    build:
+      context: .
+      dockerfile: Data_Storage/Dockerfile
+    ports:
+      - "5002:5002"

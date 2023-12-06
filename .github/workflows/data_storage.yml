@@ -45,8 +45,8 @@ jobs:
 
     - name: Deploy to Minikube
       run: |
-        kubectl apply -f data_storage/deployment.yml
-        kubectl apply -f data_storage/service.yml
+        kubectl apply -f K8s/data_storage_deployment.yml
+        # kubectl apply -f data_storage/service.yml
 
         # Wait for the deployment to complete
         kubectl wait --for=condition=available --timeout=300s deployment/data-storage

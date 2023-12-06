@@ -46,8 +46,8 @@ jobs:
 
     - name: Deploy to Minikube
       run: |
-        kubectl apply -f github_data_collector/deployment.yml
-        kubectl apply -f github_data_collector/service.yml
+        kubectl apply -f K8s/github_data_collector_deployment.yml
+        # kubectl apply -f github_data_collector/service.yml
 
         # Wait for the external IP to be assigned
         kubectl wait --for=condition=available --timeout=300s deployment/github-data-collector
