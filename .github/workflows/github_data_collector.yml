@@ -13,6 +13,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    
+    - name: Create non-root user and switch
+      run: |
+        sudo useradd -m github-runner
+        sudo runuser -l github-runner -c 'minikube start --driver=docker'
 
     - name: Set up Minikube
       run: |
