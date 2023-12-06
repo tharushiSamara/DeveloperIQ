@@ -21,8 +21,9 @@ ENV SERVICE_NAME=GitHub_Data_Collector
 CMD ["python", "github_data_collector.py"]
 
 
-# docker build -t github-data-collector:v1 ./GitHub_Data_Collector OR   ->    docker build -f Dockerfile -t github-data-collector:v1 ./GitHub_Data_Collector
-
+# docker build -f ./GitHub_Data_Collector/Dockerfile -t github-data-collector:v1 .
+#docker tag 2b5cca3b1495 tharushisamara/developer-test:latest
+# docker run tharushisamara/developer-test  --- to test your Docker image locally.
 # docker tag github_data_collector:v1 tharushisamara/developer-test:v1
 # docker login
-# docker push tharushisamara/developer-test:tagname
+# docker push tharushisamara/developer-test:latest

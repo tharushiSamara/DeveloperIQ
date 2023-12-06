@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: data-processor
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: data-processor

@@ -10,6 +10,13 @@ services:
   service2:
     build:
       context: .
-      dockerfile: Data_Storage/Dockerfile
+      dockerfile: Data_Processor/Dockerfile
     ports:
       - "5002:5002"
+
+  service3:
+    build:
+      context: .
+      dockerfile: Data_Storage/Dockerfile
+    ports:
+      - "5003:5003"
