@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: github-data-collector
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: github-data-collector
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: github-data-collector
-        image: your-docker-hub-username/github-data-collector:latest
+        image: tharushisamara/github-data-collector:latest
         ports:
         - containerPort: 5000
 ---

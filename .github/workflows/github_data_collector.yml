@@ -41,8 +41,8 @@ jobs:
       run: |
         docker buildx create --use
         docker buildx inspect
-        docker buildx build -t your-docker-hub-username/github-data-collector:latest --platform linux/amd64,linux/arm64 -o type=registry .
-        docker push your-docker-hub-username/github-data-collector:latest
+        docker buildx build -t tharushisamara/github-data-collector:latest --platform linux/amd64,linux/arm64 -o type=registry .
+        docker push tharushisamara/github-data-collector:latest
 
     - name: Deploy to Minikube
       run: |
