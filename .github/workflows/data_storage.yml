@@ -14,18 +14,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Minikube
-      run: |
-        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-        sudo dpkg -i minikube_latest_amd64.deb
-        sudo apt-get install -y conntrack
-        sudo minikube start --driver=docker
-
-    - name: Set up Kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: latest
-
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
@@ -34,22 +22,19 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        server-url: https://index.docker.io/v1/
 
     - name: Build and push Docker image
       run: |
-        docker buildx create --use
-        docker buildx inspect
-        docker buildx build -t tharushisamara/data-storage:latest --platform linux/amd64,linux/arm64 -o type=registry .
-        docker push tharushisamara/data-storage:latest
+        docker buildx build -t tharushisamara/data-storage:latest --file ./Data_Storage/Dockerfile --platform linux/amd64,linux/arm64 --push .
 
-    - name: Deploy to Minikube
-      run: |
-        kubectl apply -f K8s/data_storage_deployment.yml
-        # kubectl apply -f data_storage/service.yml
-
-        # Wait for the deployment to complete
-        kubectl wait --for=condition=available --timeout=300s deployment/data-storage
+    - name: Deploy to Minikube on EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl apply -f K8s/data_storage_deployment.yml
 
     - name: Set up DynamoDB Table
       run: |

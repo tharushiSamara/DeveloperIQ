@@ -21,7 +21,7 @@ ENV SERVICE_NAME=Data_Processor
 CMD ["python", "data_processor.py"]
 
 
-# docker build -t data-storage:v1 ./Data_Processor
+# docker build -t ./Data_Processor/data-storage:v1 .
 # docker tag data_processor:v1 tharushisamara/developer-test:v1
 # docker login
 # docker push tharushisamara/developer-test:tagname
