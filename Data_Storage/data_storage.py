@@ -12,6 +12,8 @@ app = Flask(__name__)
 # AWS DynamoDB configuration
 DYNAMODB_REGION = 'ap-south-1'
 DYNAMODB_TABLE_NAME = 'Developer-Tracking-Data'
+AWS_ACCESS_KEY_ID = os.environ["aws_access_key_id"]
+AWS_SECRET_ACCESS_KEY = os.environ["aws_secret_access_key"]
 
 # Route to store the processed GitHub data in DynamoDB
 @app.route('/store-processed-data', methods=['POST'])
@@ -33,7 +35,7 @@ def store_data_in_dynamodb(repo, processed_data):
     try:
         # Initialize DynamoDB client using IAM role credentials
         session = boto3.Session()
-        dynamodb = session.resource('dynamodb', region_name=DYNAMODB_REGION, aws_access_key_id='AKIAQZBUEOZTBZWD2KOG', aws_secret_access_key='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')
+        dynamodb = session.resource('dynamodb', region_name=DYNAMODB_REGION, aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
         table = dynamodb.Table(DYNAMODB_TABLE_NAME)
         
         print(repo)
