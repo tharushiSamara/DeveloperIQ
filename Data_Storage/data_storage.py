@@ -3,6 +3,8 @@ import os
 import json
 import boto3
 
+from datetime import datetime
+
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -38,7 +40,7 @@ def store_data_in_dynamodb(repo, processed_data):
         print(processed_data)
 
         # Example: Store data with a unique identifier as the partition key
-        unique_id = f'{repo}-processed-data'
+        unique_id = f'{repo}-processed-data_{current_date}'
         
         It = {'developer_username':unique_id, 'varibles':processed_data}
         table.put_item(Item=It)

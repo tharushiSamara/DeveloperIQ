@@ -9,7 +9,7 @@ app = Flask(__name__)
 BASE_URL = "https://api.github.com"
 
 # GitHub personal access token
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = "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"
 
 # Data Processing Microservice URL
 # DATA_PROCESSING_MICROSERVICE_URL = "http://127.0.0.1:5002/process-and-calculate"
