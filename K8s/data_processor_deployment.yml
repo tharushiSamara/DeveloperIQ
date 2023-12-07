@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: data-processor
+  name: data-processor-service
 spec:
   selector:
     app: data-processor
