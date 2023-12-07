@@ -21,7 +21,7 @@ ENV SERVICE_NAME=Data_Storage
 CMD ["python", "data_storage.py"]
 
 
-# docker build -t ./Data_Storage/data-storage:v1 .
+# docker build -f ./Data_Storage/Dockerfile -t data-storage:v1 .
 # 2. Run docker ps and get the tagID
 # docker tag <tagID> tharushisamara/developer-test:v1
 # docker login
