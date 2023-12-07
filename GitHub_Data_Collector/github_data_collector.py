@@ -15,8 +15,8 @@ GITHUB_TOKEN = "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"
 # DATA_PROCESSING_MICROSERVICE_URL = "http://127.0.0.1:5002/process-and-calculate"
 
 # Repository information
-username = "MohamedSabthar"
-repo = "Smart-VAT"
+# username = "MohamedSabthar"
+# repo = "Smart-VAT"
 
 # Define the headers with the authentication token
 headers = {
@@ -59,7 +59,7 @@ def get_contributor_list(username, repo):
         return []
 
 # Example usage
-contributor_list = get_contributor_list(username, repo)
+# contributor_list = get_contributor_list(username, repo)
 
 # Function to fetch data from the GitHub API
 def fetch_github_data2(endpoint, username, repo, params=None):
