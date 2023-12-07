@@ -22,6 +22,6 @@ CMD ["python", "data_processor.py"]
 
 
 # docker build -f ./Data_Processor/Dockerfile -t data_processor:v1 .
-# docker tag data_processor:v1 tharushisamara/data_processor:v1
+# docker tag 489360fb5cb6 tharushisamara/data_processor:latest
 # docker login
 # docker push tharushisamara/developer-test:latest
