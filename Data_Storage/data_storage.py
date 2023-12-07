@@ -38,7 +38,7 @@ def store_data_in_dynamodb(repo, processed_data):
         
         print(repo)
         print(processed_data)
-
+        current_date = datetime.now()
         # Example: Store data with a unique identifier as the partition key
         unique_id = f'{repo}-processed-data_{current_date}'
         
