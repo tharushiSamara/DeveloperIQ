@@ -44,7 +44,7 @@ jobs:
 
     - name: Deploy to Minikube
       run: |
-        kubectl apply -f ./K8s/data-storage_deployment.yml    
+        kubectl apply -f ./K8s/data_storage_deployment.yml    
         kubectl get pods
 
         kubectl wait --for=condition=available --timeout=150s deployment/data-storage 
