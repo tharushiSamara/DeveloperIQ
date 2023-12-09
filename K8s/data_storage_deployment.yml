@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: data-storage-service
+  name: data-storage
 spec:
   selector:
     app: data-storage
