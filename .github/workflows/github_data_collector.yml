@@ -59,3 +59,4 @@ jobs:
     - name: Expose Minikube service externally (for demo purposes)
       run: |
         minikube service github-data-collector-service --url
+        kubectl get svc
