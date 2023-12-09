@@ -47,4 +47,4 @@ jobs:
 
     - name: Expose Minikube service externally (for demo purposes)
       run: |
-        sudo minikube service data-storage --url
+        sudo minikube service data-storage-service --url

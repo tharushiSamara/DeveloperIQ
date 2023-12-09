@@ -49,5 +49,5 @@ jobs:
         kubectl apply -f ./K8s/github_data_collector_deployment.yml    
         kubectl get pods
         kubectl expose deployment github-data-collector --type=NodePort --port=5000
-        minikube service github-data-collector --url
+        minikube service github-data-collector-service --url
           
