@@ -30,11 +30,6 @@ jobs:
       run: |
         docker buildx build -t tharushisamara/github-data-collector:latest --file ./GitHub_Data_Collector/Dockerfile --platform linux/amd64,linux/arm64 --push .
 
-    - name: Check Directory Contents
-      run: |
-          ls -R
-          ls -R K8s
-
     - name: Connect with EC2
       uses: appleboy/ssh-action@master
       with:
@@ -49,5 +44,5 @@ jobs:
         kubectl apply -f ./K8s/github_data_collector_deployment.yml    
         kubectl get pods
         kubectl expose deployment github-data-collector --type=NodePort --port=5000
-        minikube service github-data-collector-service --url
+        minikube service github-data-collector --url
           
