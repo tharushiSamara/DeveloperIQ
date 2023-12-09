@@ -45,9 +45,11 @@ jobs:
         kubectl get pods
 
         kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector 
-
+    
+    - name: Getting Minikube IP
+      run: |
         minikube ip
-        kubectl get service github-data-collector  -o=jsonpath='{.spec.ports[0].nodePort}'
+        kubectl get service github-data-collector-service  -o=jsonpath='{.spec.ports[0].nodePort}'
 
     - name: Expose deployment
       run: |
