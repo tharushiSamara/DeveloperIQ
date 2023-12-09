@@ -43,3 +43,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         run: |
           kubectl apply -f ./K8s/github_data_collector_deployment.yml
+          kubectl get pods
+          kubectl expose pod github-data-collector --name=github-data-collector
+          kubectl expose deployment github-data-collector --type=NodePort --port=5000
+          minikube service github-data-collector --url
