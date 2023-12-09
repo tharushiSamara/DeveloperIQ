@@ -39,17 +39,6 @@ jobs:
         script: |
           kubectl apply -f K8s/data_storage_deployment.yml
 
-    - name: Set up DynamoDB Table
-      run: |
-        # Add steps to set up DynamoDB table, e.g., using AWS CLI
-        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws configure set region ${{ secrets.AWS_REGION }}
-        aws dynamodb create-table --table-name Developer-Tracking-Data --attribute-definitions AttributeName=owner,AttributeType=S AttributeName=repo,AttributeType=S --key-schema AttributeName=owner,KeyType=HASH AttributeName=repo,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
-
-        # Wait for DynamoDB table creation to complete
-        aws dynamodb wait table-exists --table-name Developer-Tracking-Data
-
     - name: Expose Minikube service externally (for demo purposes)
       run: |
         sudo minikube service data-storage --url
