@@ -39,4 +39,4 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl run github-data-collector --image=tharushisamara/github-data-collector:latest --port=5000
+          kubectl apply -f K8s/github_data_collector_deployment.yaml
