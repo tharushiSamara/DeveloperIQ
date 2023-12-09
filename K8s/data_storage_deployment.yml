@@ -28,6 +28,6 @@ spec:
     app: data-storage
   ports:
     - protocol: "TCP"
-      port: 83
+      port: 5003
       targetPort: 5003
   type: NodePort

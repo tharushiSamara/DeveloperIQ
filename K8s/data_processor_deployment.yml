@@ -28,6 +28,6 @@ spec:
     app: data-processor
   ports:
     - protocol: "TCP"
-      port: 82
+      port: 5002
       targetPort: 5002
   type: NodePort
