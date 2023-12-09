@@ -33,4 +33,11 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl apply -f K8s/data_processor_deployment.yml
+          docker pull tharushisamara/data-processor:latest
+
+    - name: Deploy to Minikube
+      run: |
+        kubectl apply -f ./K8s/data-processor_deployment.yml    
+        kubectl get pods
+        kubectl expose deployment data-processor --type=NodePort --port=5002
+        minikube service data-processor --url
