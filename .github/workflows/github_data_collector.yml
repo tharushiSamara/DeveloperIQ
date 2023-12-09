@@ -34,4 +34,4 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl apply -f K8s/github_data_collector_deployment.yml
+          kubectl apply -f ./K8s/github_data_collector_deployment.yml
