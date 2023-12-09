@@ -35,7 +35,7 @@ jobs:
           ls -R
           ls -R K8s
 
-    - name: Deploy to Minikube on EC2
+    - name: Connect with EC2
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -43,5 +43,10 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           docker pull tharushisamara/github-data-collector:latest
-          kubectl apply -f ./K8s/github_data_collector_deployment.yml
+    
+    - name: Deploy to Minikube
+      run: |
+        kubectl apply -f ./K8s/github_data_collector_deployment.yml    
+        kubectl get pods
+      
           
