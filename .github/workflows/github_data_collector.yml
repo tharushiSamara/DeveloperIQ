@@ -27,6 +27,11 @@ jobs:
       run: |
         docker buildx build -t tharushisamara/github-data-collector:latest --file ./GitHub_Data_Collector/Dockerfile --platform linux/amd64,linux/arm64 --push .
 
+    - name: Check Directory Contents
+      run: |
+          ls -R
+          ls -R K8s
+
     - name: Deploy to Minikube on EC2
       uses: appleboy/ssh-action@master
       with:
@@ -34,6 +39,4 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          pwd
-          ls
           kubectl run github-data-collector --image=tharushisamara/github-data-collector:latest --port=5000
