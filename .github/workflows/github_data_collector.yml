@@ -36,4 +36,4 @@ jobs:
         script: |
           pwd
           ls
-          kubectl apply -f K8s/github_data_collector_deployment.yaml
+          kubectl run github-data-collector --image=tharushisamara/github-data-collector:latest --port=5000
