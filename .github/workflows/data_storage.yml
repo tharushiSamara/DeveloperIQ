@@ -17,9 +17,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Start minikube
-      uses: medyagh/setup-minikube@master	
-
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
@@ -41,12 +38,26 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           docker pull tharushisamara/data-storage:latest
+          
+    - name: Start minikube
+      run: minikube start	
 
     - name: Deploy to Minikube
       run: |
         kubectl apply -f ./K8s/data-storage_deployment.yml    
         kubectl get pods
-        kubectl expose deployment data-storage --type=NodePort --port=5003
+
+        kubectl wait --for=condition=available --timeout=150s deployment/data-storage 
+    
+    - name: Getting Minikube IP
+      run: |
+        minikube ip
+        kubectl get service data-storage-service  -o=jsonpath='{.spec.ports[0].nodePort}'
+
+    - name: Expose deployment
+      run: |
+        kubectl get pods
+        kubectl expose deployment data-storage --type=NodePort --port=5000
 
     - name: Expose Minikube service externally (for demo purposes)
       run: |
