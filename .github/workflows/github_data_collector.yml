@@ -14,9 +14,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Start minikube
-      uses: medyagh/setup-minikube@master	
-
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
@@ -38,16 +35,9 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           docker pull tharushisamara/github-data-collector:latest
- 
-    - name: Connect with EC2 and deploy to Minikube
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        run: |
-          kubectl apply -f ./K8s/github_data_collector_deployment.yml    
-          kubectl get pods
+    
+    - name: Start minikube
+      run: minikube start	
 
     - name: Deploy to Minikube
       run: |
