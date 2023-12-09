@@ -43,6 +43,12 @@ jobs:
       run: |
         kubectl apply -f ./K8s/github_data_collector_deployment.yml    
         kubectl get pods
+
+    - name: Expose deployment
+      run: |
+        kubectl get pods
         kubectl expose deployment github-data-collector --type=NodePort --port=5000
-        minikube service github-data-collector --url
-          
+
+    - name: Expose Minikube service externally (for demo purposes)
+      run: |
+        sudo minikube service github-data-collector-service --url
