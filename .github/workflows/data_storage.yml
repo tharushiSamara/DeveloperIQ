@@ -48,6 +48,17 @@ jobs:
         source: "./K8s/data_storage_deployment.yml"
         target: "/home/${{ secrets.EC2_USERNAME }}/"
 
+    - name: Set Environment Variables on EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+            echo "export aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.bashrc
+            echo "export aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.bashrc
+            source ~/.bashrc
+
     - name: Delete Kubernetes Service if exists
       uses: appleboy/ssh-action@master
       with:
