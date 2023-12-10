@@ -12,8 +12,8 @@ app = Flask(__name__)
 # AWS DynamoDB configuration
 DYNAMODB_REGION = 'ap-south-1'
 DYNAMODB_TABLE_NAME = 'Developer-Tracking-Data'
-AWS_ACCESS_KEY_ID = os.environ["aws_access_key_id"]
-AWS_SECRET_ACCESS_KEY = os.environ["aws_secret_access_key"]
+AWS_ACCESS_KEY_ID = os.environ.get('aws_access_key_id')
+AWS_SECRET_ACCESS_KEY = os.environ.get('aws_secret_access_key')
 
 # Route to store the processed GitHub data in DynamoDB
 @app.route('/store-developer_metrics', methods=['POST'])
