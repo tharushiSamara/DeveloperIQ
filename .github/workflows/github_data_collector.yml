@@ -26,7 +26,7 @@ jobs:
     - name: Build and push Docker image
       run: |
         docker buildx build -t tharushisamara/github-data-collector:latest --file ./GitHub_Data_Collector/Dockerfile --platform linux/amd64,linux/arm64 --push .
-
+    
     - name: Connect with EC2
       uses: appleboy/ssh-action@master
       with:
@@ -35,9 +35,15 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           docker pull tharushisamara/github-data-collector:latest
-    
+
     - name: Start minikube
-      run: minikube start --vm-driver=none	
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          minikube start
 
     - name: Deploy to Minikube
       run: |
