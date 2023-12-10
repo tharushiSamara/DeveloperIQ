@@ -39,26 +39,75 @@ jobs:
         script: |
           docker pull tharushisamara/data-storage:latest
           
-    - name: Start minikube
-      run: minikube start	
+    - name: Copy deployemnt file to EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        source: "./K8s/data_storage_deployment.yml"
+        target: "/home/${{ secrets.EC2_USERNAME }}/"
+
+    - name: Delete Kubernetes Service if exists
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl delete -f ./K8s/data_storage_deployment.yml || true
+
+          kubectl wait --for=delete service/data_storage --timeout=300s || echo "Service not found or deletion completed"
+
 
     - name: Deploy to Minikube
-      run: |
-        kubectl apply -f ./K8s/data_storage_deployment.yml    
-        kubectl get pods
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl apply -f ./K8s/data_storage_deployment.yml    
+          kubectl get pods
 
-        kubectl wait --for=condition=available --timeout=150s deployment/data-storage 
-    
+          kubectl wait --for=condition=available --timeout=150s deployment/data_storage 
+      
     - name: Getting Minikube IP
-      run: |
-        minikube ip
-        kubectl get service data-storage-service  -o=jsonpath='{.spec.ports[0].nodePort}'
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          minikube ip
+          kubectl get service data_storage-service  -o=jsonpath='{.spec.ports[0].nodePort}' 
 
+    - name: Delete Kubernetes Service if exists
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl delete service data_storage --ignore-not-found
+          
     - name: Expose deployment
-      run: |
-        kubectl get pods
-        kubectl expose deployment data-storage --type=NodePort --port=5000
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl get pods
+          kubectl expose deployment data_storage --type=NodePort --port=5003
 
     - name: Expose Minikube service externally (for demo purposes)
-      run: |
-        minikube service data-storage-service --url
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          minikube service data_storage --url
+          kubectl get svc	
+
