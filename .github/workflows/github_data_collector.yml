@@ -47,10 +47,11 @@ jobs:
 
     - name: Deploy to Minikube
       run: |
-        kubectl apply -f ./K8s/github_data_collector_deployment.yml    
-        kubectl get pods
+          whoami
+        # kubectl apply -f ./K8s/github_data_collector_deployment.yml    
+        # kubectl get pods
 
-        kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector 
+        # kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector 
     
     - name: Getting Minikube IP
       run: |
