@@ -46,8 +46,14 @@ jobs:
           minikube start
 
     - name: Deploy to Minikube
-      run: |
-          whoami
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: whoami
+      # run: |
+      #     whoami
         # kubectl apply -f ./K8s/github_data_collector_deployment.yml    
         # kubectl get pods
 
