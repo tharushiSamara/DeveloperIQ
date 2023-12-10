@@ -52,4 +52,4 @@ def store_data_in_dynamodb(repo, developer_metrics):
         print(f"Error storing data in DynamoDB: {str(e)}")
 
 if __name__ == '__main__':
-    app.run(port=8081)
+    app.run(host="0.0.0.0",port=8081)
