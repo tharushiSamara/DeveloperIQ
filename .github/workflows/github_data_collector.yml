@@ -62,6 +62,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           kubectl delete -f ./K8s/github_data_collector_deployment.yml || true
+          kubectl delete service github-data-collector --ignore-not-found
 
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
@@ -90,6 +91,15 @@ jobs:
           minikube ip
           kubectl get service github-data-collector-service  -o=jsonpath='{.spec.ports[0].nodePort}' 
 
+    - name: Delete Kubernetes Service if exists
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl delete service github-data-collector --ignore-not-found
+          
     - name: Expose deployment
       uses: appleboy/ssh-action@master
       with:
