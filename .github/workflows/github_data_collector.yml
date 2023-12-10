@@ -52,29 +52,43 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl apply -f tharushisamara/github-data-collector/K8s/github_data_collector_deployment.yml    
+          kubectl apply -f github_data_collector_deployment.yml    
           kubectl get pods
+
+          kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector 
       # run: |
       #     whoami
         # kubectl apply -f ./K8s/github_data_collector_deployment.yml    
         # kubectl get pods
 
         # kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector 
-    
     - name: Getting Minikube IP
-      run: |
-        minikube ip
-        kubectl get service github-data-collector-service  -o=jsonpath='{.spec.ports[0].nodePort}'
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          minikube ip
+          kubectl get service github-data-collector-service  -o=jsonpath='{.spec.ports[0].nodePort}' 
 
     - name: Expose deployment
-      run: |
-        kubectl get pods
-        kubectl expose deployment github-data-collector --type=NodePort --port=80
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl get pods
+          kubectl expose deployment github-data-collector --type=NodePort --port=5000
 
     - name: Expose Minikube service externally (for demo purposes)
-      run: |
-        minikube service github-data-collector-service --url
-        
-    - name: Get github-data-collector-service
-      run: |       
-        kubectl get svc
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          minikube service github-data-collector-service --url
+          kubectl get svc
+          
