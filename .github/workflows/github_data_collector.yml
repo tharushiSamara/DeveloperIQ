@@ -61,7 +61,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl apply -f github_data_collector_deployment.yml    
+          kubectl apply -f /K8s/github_data_collector_deployment.yml    
           kubectl get pods
 
           kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector 
