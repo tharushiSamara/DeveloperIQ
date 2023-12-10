@@ -59,7 +59,6 @@ jobs:
     - name: Expose Minikube service externally (for demo purposes)
       run: |
         minikube service github-data-collector-service --url
-        kubectl wait --for=condition=available --timeout=150s service/github-data-collector
         
     - name: Get github-data-collector-service
       run: |       
