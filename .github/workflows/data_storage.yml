@@ -57,7 +57,7 @@ jobs:
         script: |
           kubectl delete -f ./K8s/data_storage_deployment.yml || true
 
-          kubectl wait --for=delete service/data_storage --timeout=300s || echo "Service not found or deletion completed"
+          kubectl wait --for=delete service/data-storage --timeout=300s || echo "Service not found or deletion completed"
 
 
     - name: Deploy to Minikube
@@ -70,7 +70,7 @@ jobs:
           kubectl apply -f ./K8s/data_storage_deployment.yml    
           kubectl get pods
 
-          kubectl wait --for=condition=available --timeout=150s deployment/data_storage 
+          kubectl wait --for=condition=available --timeout=150s deployment/data-storage 
       
     - name: Getting Minikube IP
       uses: appleboy/ssh-action@master
@@ -80,7 +80,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           minikube ip
-          kubectl get service data_storage-service  -o=jsonpath='{.spec.ports[0].nodePort}' 
+          kubectl get service data-storage-service  -o=jsonpath='{.spec.ports[0].nodePort}' 
 
     - name: Delete Kubernetes Service if exists
       uses: appleboy/ssh-action@master
@@ -89,7 +89,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl delete service data_storage --ignore-not-found
+          kubectl delete service data-storage --ignore-not-found
           
     - name: Expose deployment
       uses: appleboy/ssh-action@master
@@ -99,7 +99,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           kubectl get pods
-          kubectl expose deployment data_storage --type=NodePort --port=5003
+          kubectl expose deployment data-storage --type=NodePort --port=5003
 
     - name: Expose Minikube service externally (for demo purposes)
       uses: appleboy/ssh-action@master
@@ -108,6 +108,6 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          minikube service data_storage --url
+          minikube service data-storage --url
           kubectl get svc	
 
