@@ -114,5 +114,5 @@ def collect_developer_metrics():
     return jsonify({"repository": repo, "developer_metrics": developer_metrics})
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=8080)
 

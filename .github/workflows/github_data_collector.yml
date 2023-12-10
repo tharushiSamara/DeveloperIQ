@@ -110,7 +110,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           kubectl get pods
-          kubectl expose deployment github-data-collector --type=LoadBalancer --port=5000
+          kubectl expose deployment github-data-collector --type=LoadBalancer --port=8080
 
     - name: Expose Minikube service externally (for demo purposes)
       uses: appleboy/ssh-action@master
@@ -121,4 +121,13 @@ jobs:
         script: |
           minikube service github-data-collector-service --url
           kubectl get svc
+
+    - name: Expose Minikube service externally (for demo purposes)
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: minikube tunnel
+
           
