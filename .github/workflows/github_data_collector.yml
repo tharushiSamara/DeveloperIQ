@@ -51,7 +51,9 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
-        script: whoami
+        script: |
+          kubectl apply -f tharushisamara/github-data-collector/K8s/github_data_collector_deployment.yml    
+          kubectl get pods
       # run: |
       #     whoami
         # kubectl apply -f ./K8s/github_data_collector_deployment.yml    
