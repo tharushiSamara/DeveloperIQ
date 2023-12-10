@@ -63,7 +63,7 @@ jobs:
         script: |
           kubectl delete -f ./K8s/github_data_collector_deployment.yml || true
           
-          until kubectl get pod -l app=deployment/github-data-collector --field-selector=status.phase!=Running --ignore-not-found; do sleep 40; done
+          kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector
 
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
