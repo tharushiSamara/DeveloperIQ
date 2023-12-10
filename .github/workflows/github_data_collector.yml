@@ -55,8 +55,13 @@ jobs:
           minikube start
 
     - name: Delete Kubernetes Service if exists
-      run: |
-        kubectl delete -f ./K8s/github_data_collector_deployment.yml || true
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          kubectl delete -f ./K8s/github_data_collector_deployment.yml || true
 
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
