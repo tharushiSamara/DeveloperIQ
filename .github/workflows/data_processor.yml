@@ -27,7 +27,7 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker buildx build -t tharushisamara/data-processor:latest --file ./Data-Processor/Dockerfile --platform linux/amd64,linux/arm64 --push .
+        docker buildx build -t tharushisamara/data-processor:latest --file ./Data_Processor/Dockerfile --platform linux/amd64,linux/arm64 --push .
 
     - name: Deploy to Minikube on EC2
       uses: appleboy/ssh-action@master
