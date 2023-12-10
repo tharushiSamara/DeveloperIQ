@@ -41,9 +41,9 @@ jobs:
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.EC2_SSH_KEY }}
         source: "./K8s/github_data_collector_deployment.yml"
-        target: ""
+        target: "/home/${{ secrets.EC2_USERNAME }}/"
     
     - name: Start minikube
       uses: appleboy/ssh-action@master
@@ -61,7 +61,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl apply -f github_data_collector_deployment.yml    
+          kubectl apply -f /K8s/github_data_collector_deployment.yml    
           kubectl get pods
 
           kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector 
