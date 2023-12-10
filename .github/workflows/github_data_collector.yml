@@ -44,15 +44,6 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         source: "./K8s/github_data_collector_deployment.yml"
         target: "/home/${{ secrets.EC2_USERNAME }}/"
-    
-    - name: Start minikube
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          minikube start
 
     - name: Delete Kubernetes Service if exists
       uses: appleboy/ssh-action@master
@@ -122,12 +113,5 @@ jobs:
           minikube service github-data-collector-service --url
           kubectl get svc
 
-    - name: Expose Minikube service externally (for demo purposes)
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: minikube tunnel
 
           
