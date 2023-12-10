@@ -23,7 +23,7 @@ headers = {
     "Authorization": f"token {GITHUB_TOKEN}"
 }
 
-processor_microservice_url = 'http://<process_service_cluster_IP>:5002/process-and-calculate'
+processor_microservice_url = 'http://<process_service_cluster_IP>:5003/store-processed-data'
 
 # Function to fetch the list of contributors for a repository from the GitHub API
 def fetch_contributors(username, repo):
@@ -84,7 +84,7 @@ def collect_developer_metrics():
     if not username or not repo or not developers:
         return jsonify({"error": "Invalid request. Please provide 'username', 'repo', and 'developers' in the request body."}), 400
 
-    metrics_data = {}
+    developer_metrics = {}
     for developer in developers:
         # Fetch commit count
         commits_data = fetch_github_data2('commits', username, repo, params={"author": developer})
@@ -98,19 +98,20 @@ def collect_developer_metrics():
         pull_requests_data = fetch_github_data2('pulls', username, repo, params={"creator": developer, "state": "all"})
         pull_requests_count = len(pull_requests_data) if pull_requests_data else 0
 
-        metrics_data[developer] = {
+        developer_metrics[developer] = {
+            'developer_username' : developer,
             'commit_count': commit_count,
             'resolved_issues_count': resolved_issues_count,
             'pull_requests_count': pull_requests_count
         }
 
-    #processor_response = requests.post(processor_microservice_url, json=metrics_data)
+    #processor_response = requests.post(processor_microservice_url, json=developer_metrics)
     #print(processor_response)
-    data_json = {"repository": repo, "developer_metrics": metrics_data}
+    data_json = {"repository": repo, "developer_metrics": developer_metrics}
     print(data_json)
     processor_response = requests.post(processor_microservice_url, json=data_json)
     print(processor_response)
-    return jsonify({"repository": repo, "developer_metrics": metrics_data})
+    return jsonify({"repository": repo, "developer_metrics": developer_metrics})
 
 if __name__ == '__main__':
     app.run(port=5000)
