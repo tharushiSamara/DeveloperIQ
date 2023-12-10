@@ -62,8 +62,6 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           kubectl delete -f ./K8s/github_data_collector_deployment.yml || true
-          
-          kubectl wait --for=condition=available --timeout=150s deployment/github-data-collector
 
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
