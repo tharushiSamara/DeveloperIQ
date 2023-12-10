@@ -23,7 +23,7 @@ headers = {
     "Authorization": f"token {GITHUB_TOKEN}"
 }
 
-processor_microservice_url = 'http://localhost:5002/process-and-calculate'
+processor_microservice_url = 'http://<process_service_cluster_IP>:5002/process-and-calculate'
 
 # Function to fetch the list of contributors for a repository from the GitHub API
 def fetch_contributors(username, repo):
