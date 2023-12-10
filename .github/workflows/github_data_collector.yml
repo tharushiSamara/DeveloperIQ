@@ -37,7 +37,7 @@ jobs:
           docker pull tharushisamara/github-data-collector:latest
     
     - name: Start minikube
-      run: minikube start	
+      run: minikube start --vm-driver=none	
 
     - name: Deploy to Minikube
       run: |
