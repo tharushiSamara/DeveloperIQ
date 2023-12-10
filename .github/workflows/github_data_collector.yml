@@ -43,7 +43,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         source: "./K8s/github_data_collector_deployment.yml"
-        target: "/K8s/"
+        target: "/home/${{ secrets.EC2_USERNAME }}/"
     
     - name: Start minikube
       uses: appleboy/ssh-action@master
