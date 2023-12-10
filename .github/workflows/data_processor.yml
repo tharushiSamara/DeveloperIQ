@@ -46,15 +46,6 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         source: "./K8s/data_processor_deployment.yml"
         target: "/home/${{ secrets.EC2_USERNAME }}/"
-
-    - name: Start minikube
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        source: "./K8s/data_processor_deployment.yml"
-        script: minikube start	
     
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
@@ -84,9 +75,9 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
-        script: 
+        script: |
             kubectl get pods
-            kubectl expose deployment data-processor --type=NodePort --port=5000
+            kubectl expose deployment data-processor --type=NodePort --port=5002
     
     - name: Expose Minikube service externally (for demo purposes)
       uses: appleboy/ssh-action@master
