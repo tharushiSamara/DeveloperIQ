@@ -36,6 +36,15 @@ jobs:
         script: |
           docker pull tharushisamara/github-data-collector:latest
 
+    - name: Copy deployemnt file to EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "./K8s/github_data_collector_deployment.yml"
+        target: ""
+    
     - name: Start minikube
       uses: appleboy/ssh-action@master
       with:
