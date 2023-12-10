@@ -54,7 +54,7 @@ jobs:
     - name: Expose deployment
       run: |
         kubectl get pods
-        kubectl expose deployment github-data-collector --type=LoadBalancer --port=5000
+        kubectl expose deployment github-data-collector --type=192.168.49.2:30277 --port=80
 
     - name: Expose Minikube service externally (for demo purposes)
       run: |

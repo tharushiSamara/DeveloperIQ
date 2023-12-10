@@ -28,7 +28,7 @@ spec:
     app: github-data-collector
   ports:
     - protocol: "TCP"
-      port: 5000
+      port: 80
       targetPort: 5000
-  type: LoadBalancer
+  type: NodePort
 
