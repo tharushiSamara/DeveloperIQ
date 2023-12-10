@@ -62,7 +62,9 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           kubectl delete -f ./K8s/github_data_collector_deployment.yml || true
-          kubectl delete service github-data-collector --ignore-not-found
+
+          kubectl wait --for=delete service/github-data-collector --timeout=300s --ignore-not-found || echo "Service not found or deletion completed"
+
 
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
