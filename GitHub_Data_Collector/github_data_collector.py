@@ -23,7 +23,7 @@ headers = {
     "Authorization": f"token {GITHUB_TOKEN}"
 }
 
-processor_microservice_url = 'http://10.105.112.250:8081/store-processed-data'
+processor_microservice_url = 'http://10.105.112.250:31014/store-processed-data'
 
 # Function to fetch the list of contributors for a repository from the GitHub API
 def fetch_contributors(username, repo):
