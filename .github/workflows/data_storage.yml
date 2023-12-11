@@ -66,7 +66,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-            kubectl create configmap dynamo-config --from-literal=aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} --from-literal=aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            kubectl create configmap dynamo-config --from-literal=aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} --from-literal=aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Delete Kubernetes Service if exists
       uses: appleboy/ssh-action@master
