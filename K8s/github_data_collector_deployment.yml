@@ -16,6 +16,9 @@ spec:
       - name: github-data-collector
         image: tharushisamara/github-data-collector:latest
         imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: github-config
         ports:
         - containerPort: 8080
 ---
