@@ -80,7 +80,7 @@ def collect_developer_metrics():
     username = data.get('username')
     repo = data.get('repo')
     developers = get_contributor_list(username,repo)
-
+    print(GITHUB_TOKEN);
     if not username or not repo or not developers:
         return jsonify({"error": "Invalid request. Please provide 'username', 'repo', and 'developers' in the request body."}), 400
 
