@@ -59,6 +59,15 @@ jobs:
             echo "export aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.bashrc
             source ~/.bashrc
 
+    - name: Set Environment Variables on minikube
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+            kubectl create configmap dynamo-config --from-literal=aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} --from-literal=aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+
     - name: Delete Kubernetes Service if exists
       uses: appleboy/ssh-action@master
       with:
@@ -68,7 +77,7 @@ jobs:
         script: |
           kubectl delete -f ./K8s/data_storage_deployment.yml || true
 
-          kubectl wait --for=delete service/data-storage --timeout=150s || echo "Service not found or deletion completed"
+          kubectl wait --for=delete service/data-storage --timeout=120s || echo "Service not found or deletion completed"
 
 
     - name: Deploy to Minikube
