@@ -68,18 +68,7 @@ jobs:
         script: |
             kubectl create configmap dynamo-config --from-literal=aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} --from-literal=aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Delete Kubernetes Service if exists
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          kubectl delete -f ./K8s/data_storage_deployment.yml || true
-
-          kubectl wait --for=delete service/data-storage --timeout=120s || echo "Service not found or deletion completed"
-
-
+    
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
       with:
@@ -102,16 +91,24 @@ jobs:
           minikube ip
           kubectl get service data-storage-service  -o=jsonpath='{.spec.ports[0].nodePort}' 
 
-    - name: Delete Kubernetes Service if exists
+    - name: Check if Service Exists
+      id: check_service
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          kubectl delete service data-storage --ignore-not-found
-          
+          SERVICE_NAME="data-storage-service"
+          NAMESPACE="default"
+          if kubectl get service "$SERVICE_NAME" -n "$NAMESPACE" &> /dev/null; then
+            echo "::set-output name=service_exists::true"
+          else
+            echo "::set-output name=service_exists::false"
+          fi
+
     - name: Expose deployment
+      if: steps.check_service.outputs.service_exists == 'false'
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
