@@ -16,6 +16,9 @@ spec:
       - name: data-storage
         image: tharushisamara/data-storage:latest
         imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: dynamo-config
         ports:
         - containerPort: 8081
 ---
