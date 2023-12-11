@@ -1,4 +1,4 @@
-
+import os
 import requests
 from flask import Flask, request, jsonify
 import json
@@ -9,7 +9,7 @@ app = Flask(__name__)
 BASE_URL = "https://api.github.com"
 
 # GitHub personal access token
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = os.environ.get('github_token')
 
 # Data Processing Microservice URL
 # DATA_PROCESSING_MICROSERVICE_URL = "http://127.0.0.1:5002/process-and-calculate"
