@@ -68,7 +68,7 @@ jobs:
         script: |
           kubectl delete -f ./K8s/data_storage_deployment.yml || true
 
-          kubectl wait --for=delete service/data-storage --timeout=300s || echo "Service not found or deletion completed"
+          kubectl wait --for=delete service/data-storage --timeout=150s || echo "Service not found or deletion completed"
 
 
     - name: Deploy to Minikube
