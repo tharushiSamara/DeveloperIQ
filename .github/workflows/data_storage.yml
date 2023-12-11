@@ -59,16 +59,6 @@ jobs:
             echo "export aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.bashrc
             source ~/.bashrc
 
-    - name: Set Environment Variables on minikube
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-            kubectl create configmap dynamo-config --from-literal=aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} --from-literal=aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-    
     - name: Deploy to Minikube
       uses: appleboy/ssh-action@master
       with:
